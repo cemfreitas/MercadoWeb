@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/principal.xhtml">
+	<ui:define name="body">
+		<div id="title" class="emerald">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-6">
+						<h1>Administração de créditos</h1>
+						<p>Mude o status dos créditos</p>
+					</div>
+					<div class="col-sm-6">
+						<ul class="breadcrumb pull-right">
+							<li><a
+								href="${request.contextPath}/faces/public/principal.xhtml">Home</a></li>
+							<li class="active">Administração de créditos</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="docform" class="container">
+			<h1></h1>
+			<br></br>
+			<h:form id="docAdminForm" acceptcharset="ISO-8859-1">
+				<p:messages id="messages" showDetail="true" autoUpdate="true"
+					closable="true" />
+				<h:panelGrid columns="2" cellpadding="2" cellspacing="1">
+					<p:outputLabel for="doctype" value="Tipo de créditos :" />
+					<p:selectManyCheckbox id="doctype" label="Tipo crédito"
+						layout="grid" columns="20"
+						value="#{documentAdminBean.documentTypes}">
+						<f:selectItems value="#{documentBean.documentTypes}" />
+					</p:selectManyCheckbox>
+					<p:outputLabel for="status" value="Status do crédito :" />
+					<h:selectOneMenu id="status" label="Status"
+						value="#{documentAdminBean.selectedStatus}">
+						<f:selectItem itemLabel="Todos" itemValue="-1" />
+						<f:selectItems value="#{documentAdminBean.statusList}" />
+					</h:selectOneMenu>
+					<p:outputLabel for="login" value="Login :" />
+					<p:inputText id="login" value="#{documentAdminBean.login}"
+						placeholder="Todos" />
+				</h:panelGrid>
+				<br />
+				<p:commandButton action="#{documentAdminBean.searchDocuments()}"
+					update=":docsForm" value="Buscar" />
+				<p:commandButton action="/public/principal" value="Cancelar" />
+			</h:form>
+			<h:panelGrid columns="1">
+				<p:separator style="width:1130px;height:1px;align:left" />
+			</h:panelGrid>
+			<h:form id="docsForm">
+				<p:dataTable id="docs" var="document"
+					value="#{documentAdminBean.documents}" rendered="#{true}"
+					paginator="true" rows="15"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="15,30,50"
+					emptyMessage="Nenhum crédito encontrado">
+					<p:column style="width:120px;text-align:center">
+						<p:commandButton value="Gerenciar"
+							action="#{documentAdminBean.manageDocument()}">
+							<f:setPropertyActionListener value="#{document}"
+								target="#{documentAdminBean.selectedDocument}" />
+							<p:ajax event="dialogReturn"
+								listener="#{documentAdminBean.searchDocuments()}"
+								update=":docsForm" />
+						</p:commandButton>
+					</p:column>
+					<p:column headerText="Login" style="text-align:center"
+						sortBy="#{document.user.login}">
+						<h:outputText value="#{document.user.login}" />
+					</p:column>
+					<p:column headerText="Número documemto" style="text-align:center">
+						<h:outputText value="#{document.generatedDocNumber}" />
+					</p:column>
+					<p:column headerText="Tipo de crédito" style="text-align:center"
+						sortBy="#{document.documentType.description}">
+						<h:outputText value="#{document.documentType.description}" />
+					</p:column>
+					<p:column headerText="Valor de face" style="text-align:center"
+						sortBy="#{document.price.doubleValue()}">
+						<h:outputText value="#{document.price.doubleValue()}">
+							<f:convertNumber maxFractionDigits="2" pattern="##,##0.00" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Data da emissão" style="text-align:center"
+						sortBy="#{document.issueDate}">
+						<h:outputText value="#{document.issueDate}">
+							<f:convertDateTime pattern="dd-MM-yyyy" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Último status" style="text-align:center"
+						sortBy="#{document.lastDocumentStatus.description}">
+						<h:outputText value="#{document.lastDocumentStatus.description}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

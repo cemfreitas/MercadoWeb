@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+<body>
+	<footer id="footer" class="midnight-blue">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-3 col-sm-6">
+					<h4>Receba nossa Newsletter</h4>
+					<h:form role="form">
+						<div class="input-group">
+							<p:inputText value="#{userContactBean.emailNewsLetter}"
+								styleClass="form-control" pt:placeholder="Digite seu e-mail" />
+							<span class="input-group-btn"> <h:commandButton
+									value="Ok!" action="#{userContactBean.saveNewsLetter()}"
+									styleClass="btn btn-danger" />
+							</span>
+						</div>
+					</h:form>
+				</div>
+				<h4>Quem somos</h4>
+				<p>Pellentesque habitant morbi tristique senectus et netus et
+					malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat
+					vitae, ultricies eget, tempor sit amet, ante.</p>
+			</div>
+			<!--/.col-md-3-->
+			<div class="row">
+				<div class="col-sm-6">
+					2014 Mercado de Créditos | Produzido por <a target="_blank"
+						href="http://www.cliqueaqui.com.br/" title="Mercado de Créditos">CliqueAqui
+						Comunicação Interativa</a>.
+				</div>
+				<div class="col-sm-6">
+					<ul class="pull-right">
+						<li><a href="${request.contextPath}/faces/public/principal.xhtml">Home</a></li>
+						<li><a href="${request.contextPath}/faces/public/whoweare.xhtml">Quem somos</a></li>
+						<li><a href="${request.contextPath}/faces/public/faq.xhtml">Faq</a></li>
+						<li><a href="${request.contextPath}/faces/public/contact.xhtml">Contato</a></li>
+						<li><a id="gototop" class="gototop" href="#"><i
+								class="icon-chevron-up"></i></a></li>
+						<!--#gototop-->
+					</ul>
+				</div>
+			</div>
+		</div>
+	</footer>
+</body>
+</html>

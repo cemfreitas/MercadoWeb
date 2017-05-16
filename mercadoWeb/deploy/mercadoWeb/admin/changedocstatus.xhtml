@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Alteração do status</title>
+	<h:outputStylesheet library="css" name="styles.css" />
+</h:head>
+
+<h:body>
+	<h:form id="docAdmin">
+		<p:panel id="panelDocAdmin" header="Dados do crédito">
+			<h:panelGrid columns="2" cellpadding="4">
+				<p:outputLabel value="Tipo :" />
+				<p:outputLabel style="font-weight:bold"
+					value="#{documentAdminBean.selectedDocument.documentType.description}" />
+				<p:outputLabel value="Núm. crédito :" />
+				<p:outputLabel style="font-weight:bold"
+					value="#{documentAdminBean.selectedDocument.documentNumber}" />
+				<p:outputLabel value="Núm. gerado pelo site :" />
+				<p:outputLabel style="font-weight:bold"
+					value="#{documentAdminBean.selectedDocument.generatedDocNumber}" />	
+				<p:outputLabel value="Valor de face :" />
+				<h:outputText
+					value="#{documentAdminBean.selectedDocument.price.doubleValue()}"
+					style="font-weight:bold">
+					<f:convertNumber maxFractionDigits="2" pattern="##,##0.00" />
+				</h:outputText>
+				<p:outputLabel value="Data da emissão :" />
+				<p:outputLabel style="font-weight:bold"
+					value="#{documentAdminBean.selectedDocument.issueDate}">
+					<f:convertDateTime pattern="dd-MM-yyyy" />
+				</p:outputLabel>
+				<p:outputLabel value="Estado :" />
+				<p:outputLabel id="state" style="font-weight:bold"
+					value="#{documentAdminBean.selectedDocument.state.description}" />
+				<p:outputLabel value="Município :" />
+				<p:outputLabel id="city" style="font-weight:bold"
+					value="#{documentAdminBean.selectedDocument.city.description}" />
+				<p:outputLabel value="Último status :" />
+				<p:outputLabel id="status" style="font-weight:bold"
+					value="#{documentAdminBean.selectedDocument.lastDocumentStatus.description}" />
+				<p:outputLabel for="statusChange" value="Mudar para o status :" />
+				<h:selectOneMenu id="statusChange" label="Status"
+					value="#{documentAdminBean.statusChanged}">
+					<f:selectItems value="#{documentAdminBean.statusList}" />
+				</h:selectOneMenu>
+				<p:outputLabel for="explanations" value="Observações :" />
+				<p:inputTextarea id="explanations"
+					value="#{documentAdminBean.explanation}" />
+				<f:facet name="footer">
+					<p:commandButton value="Confirmar"
+						actionListener="#{documentAdminBean.changeDocStatus()}">
+						<p:confirm header="Confirmação"
+							message="Confirma alteração do status ?" icon="ui-icon-alert" />
+					</p:commandButton>
+					<p:confirmDialog global="true" showEffect="fade">
+						<p:commandButton value="Sim" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						<p:commandButton value="Não" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
+					<p:commandButton value="Cancelar"
+						action="#{documentAdminBean.cancelChangeDocStatus()}" />
+				</f:facet>
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+
+</h:body>
+
+</html>

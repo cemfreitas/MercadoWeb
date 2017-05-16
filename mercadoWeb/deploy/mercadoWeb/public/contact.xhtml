@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<h:head>
+	<title>Mercado de Creditos - Regras</title>
+</h:head>
+
+<ui:composition template="/templates/principal.xhtml">
+	<ui:define name="body">
+		<section id="title" class="emerald">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-6">
+						<h1>Contato</h1>
+						<p>Pellentesque habitant morbi tristique senectus et netus et
+							malesuada</p>
+					</div>
+					<div class="col-sm-6">
+						<ul class="breadcrumb pull-right">
+							<li><a href="${request.contextPath}/faces/public/principal.xhtml">Home</a></li>
+							<li class="active">Contato</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!--/#title-->
+
+		<section id="contact-page" class="container">
+			<div class="row">
+				<div class="col-sm-8">
+					<h2>Fale conosco</h2>
+					<div class="status alert alert-success" style="display: none"></div>
+					<h:form id="main-contact-form" styleClass="contact-form"
+						name="contact-form" method="post" role="form">
+						<div class="row">
+							<div class="col-sm-5">
+								<div class="form-group">
+									<!-- <input type="text" class="form-control" placeholder="Nome" /> -->
+									<p:inputText value="#{userContactBean.firstName}"
+										styleClass="form-control" pt:placeholder="Nome" />
+								</div>
+								<div class="form-group">
+									<!-- <input type="text" class="form-control" placeholder="Sobrenome" /> -->
+									<p:inputText value="#{userContactBean.lastName}"
+										styleClass="form-control" pt:placeholder="Sobrenome" />
+								</div>
+								<div class="form-group">
+									<!-- <input type="text" class="form-control" placeholder="Email" /> -->
+									<p:inputText value="#{userContactBean.emailMessage}"
+										styleClass="form-control" pt:placeholder="E-mail" />
+								</div>
+								<div class="form-group">
+									<!-- <button type="submit" class="btn btn-primary btn-lg">Enviar</button> -->
+									<h:commandButton value="Enviar"
+										action="#{userContactBean.saveContact()}"
+										styleClass="btn btn-primary btn-lg" />
+								</div>
+							</div>
+							<div class="col-sm-7">
+								<!-- <textarea name="message" id="message" class="form-control"
+									rows="8" placeholder="Mensagem"></textarea> -->
+								<p:inputTextarea value="#{userContactBean.message}" rows="8"
+									styleClass="form-control" pt:placeholder="Mensagem" />
+							</div>
+						</div>
+					</h:form>
+				</div>
+				<!--/.col-sm-8-->
+				<!--/.col-sm-4-->
+			</div>
+		</section>
+		<!--/#contact-page-->
+		<!--/#bottom-->
+	</ui:define>
+</ui:composition>
+</html>

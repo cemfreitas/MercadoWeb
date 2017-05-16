@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/principal.xhtml">
+	<ui:define name="body">
+		<h:form id="closeDealForm" acceptcharset="ISO-8859-1">
+			<p:panel id="docPanel" header="Dados do crédito"
+				style="margin-bottom:20px">
+				<h:panelGrid columns="2" cellpadding="2" cellspacing="1">
+					<p:outputLabel value="Número do crédito :" />
+					<p:outputLabel
+						value="#{closeDealBean.documentDeal.generatedDocNumber}"
+						style="font-weight:bold" />
+					<p:outputLabel value="Tipo de crédito :" />
+					<p:outputLabel
+						value="#{closeDealBean.documentDeal.documentType.description}"
+						rendered="#{!closeDealBean.documentDeal.allowFractionPrice}"
+						style="font-weight:bold" />
+					<p:outputLabel
+						value="#{closeDealBean.documentDeal.documentType.description.concat(' (fracionado)')}"
+						rendered="#{closeDealBean.documentDeal.allowFractionPrice}"
+						style="font-weight:bold" />
+					<p:outputLabel value="Estado :"
+						rendered="#{!empty closeDealBean.documentDeal.state}" />
+					<p:outputLabel
+						value="#{closeDealBean.documentDeal.state.description}"
+						rendered="#{!empty closeDealBean.documentDeal.state}"
+						style="font-weight:bold" />
+					<p:outputLabel value="Município :"
+						rendered="#{!empty closeDealBean.documentDeal.city}" />
+					<p:outputLabel
+						value="#{closeDealBean.documentDeal.city.description}"
+						rendered="#{!empty closeDealBean.documentDeal.city}"
+						style="font-weight:bold" />
+					<p:outputLabel value="Data de emissão :" />
+					<p:outputLabel value="#{closeDealBean.documentDeal.issueDate}"
+						style="font-weight:bold">
+						<f:convertDateTime pattern="dd-MM-yyyy" />
+					</p:outputLabel>
+					<p:outputLabel value="Valor de face :"
+						rendered="#{!closeDealBean.documentDeal.allowFractionPrice}" />
+					<p:outputLabel value="Valor da(s) fração(ões) ofertada(s) :"
+						rendered="#{closeDealBean.documentDeal.allowFractionPrice}" />
+					<h:outputText
+						value="#{closeDealBean.documentDeal.price.doubleValue()}"
+						rendered="#{!closeDealBean.documentDeal.allowFractionPrice}"
+						style="font-weight:bold">
+						<f:convertNumber maxFractionDigits="2" pattern="##,##0.00" />
+					</h:outputText>
+					<h:outputText value="#{messageBean.totalFraction.doubleValue()}"
+						rendered="#{closeDealBean.documentDeal.allowFractionPrice}"
+						style="font-weight:bold">
+						<f:convertNumber maxFractionDigits="2" pattern="##,##0.00" />
+					</h:outputText>
+					<p:outputLabel value="Imposto de renda incidente:"
+						rendered="#{closeDealBean.documentDeal.documentType.xidDocumentType ne 4}" />
+					<h:outputText
+						value="#{closeDealBean.documentDeal.incomeTaxValue.doubleValue()}"
+						rendered="#{closeDealBean.documentDeal.documentType.xidDocumentType ne 4}">
+						<f:convertNumber maxFractionDigits="2" pattern="##,##0.00" />
+					</h:outputText>
+					<p:outputLabel value="Valor líquido a receber:"
+						rendered="#{closeDealBean.documentDeal.documentType.xidDocumentType ne 4}" />
+					<h:outputText
+						value="#{closeDealBean.documentDeal.netValueToReceive.doubleValue()}"
+						rendered="#{closeDealBean.documentDeal.documentType.xidDocumentType ne 4}"
+						style="font-weight:bold">
+						<f:convertNumber maxFractionDigits="2" pattern="##,##0.00" />
+					</h:outputText>
+					<p:outputLabel value="Oferta aceita :" />
+					<h:outputText
+						value="#{closeDealBean.messageBean.lastDocumentQuestion.bid.doubleValue()}"
+						style="font-weight:bold">
+						<f:convertNumber maxFractionDigits="2" pattern="##,##0.00" />
+					</h:outputText>
+				</h:panelGrid>
+				<f:facet name="footer">
+					<p:commandButton value="Confirmar a operação"
+						action="#{closeDealBean.closeDeal()}">
+					</p:commandButton>
+					<p:commandButton value="Cancelar" action="/public/principal" />
+				</f:facet>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

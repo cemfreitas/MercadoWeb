@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+<ui:composition template="/templates/principal.xhtml">
+	<ui:define name="body">
+		<section id="title" class="emerald">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-6">
+						<h1>Quem somos</h1>
+						<p>Pellentesque habitant morbi tristique senectus et netus et
+							malesuada</p>
+					</div>
+					<div class="col-sm-6">
+						<ul class="breadcrumb pull-right">
+							<li><a href="${request.contextPath}/faces/public/principal.xhtml">Home</a></li>
+							<li class="active">Quem somos</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!--/#title-->
+
+		<section id="about-us" class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<br></br><h2>Aenean sollicitudin</h2>
+					<p>Proin gravida nibh vel velit auctor aliquet. Aenean
+						sollicitudin, lorem quis bibendum auctor, nisi elit consequat
+						ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh
+						vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit.
+						Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non
+						mauris vitae erat consequat auctor eu in elit. Class aptent taciti
+						sociosqu ad litora torquent per conubia nostra, per inceptos
+						himenaeos. Mauris in erat justo. Nullam ac urna eu felis dapibus
+						condimentum sit amet a augue. Sed non neque elit. Sed ut imperdiet
+						nisi. Proin condimentum fermentum nunc. Etiam pharetra, erat sed
+						fermentum feugiat, velit mauris egestas quam, ut aliquam massa
+						nisl quis neque. Suspendisse in orci enim.</p>
+				</div>
+				<!--/.col-sm-6-->
+				<!--/.col-sm-6-->
+			</div>
+		</section>
+		<!--/#about-us-->
+	</ui:define>
+</ui:composition>
+</html>

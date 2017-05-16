@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	<title>Mercado de Créditos</title>
+	<link rel="shortcut icon" href="../resources/images/ico/favicon.ico" />
+	<link rel="apple-touch-icon-precomposed" sizes="144x144"
+		href="../resources/images/ico/apple-touch-icon-144-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="114x114"
+		href="../resources/images/ico/apple-touch-icon-114-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="72x72"
+		href="../resources/images/ico/apple-touch-icon-72-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed"
+		href="../resources/images/ico/apple-touch-icon-57-precomposed.png" />
+	<link href="../resources/css/font-awesome.min.css" rel="stylesheet" />
+	<link href="../resources/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="../resources/css/prettyPhoto.css" rel="stylesheet" />
+	<link href="../resources/css/animate.css" rel="stylesheet" />
+	<link href="../resources/css/main.css" rel="stylesheet" />
+	<link href="../resources/css/menu01.css" rel="stylesheet" />
+</h:head>
+<body>
+	<header class="navbar navbar-inverse navbar-fixed-top wet-asphalt2"
+		role="banner">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand"
+					href="${request.contextPath}/faces/public/principal.xhtml"><img
+					src="../resources/images/logo.png" alt="logo" /></a>
+			</div>
+			<div class="collapse navbar-collapse">
+				<h:form id="menu" styleClass="nav navbar-nav navbar-right">
+					<p:menubar>
+						<p:submenu label="Administração"
+							rendered="#{contextBean.adminUser}">
+							<p:menuitem value="Créditos"
+								action="#{documentAdminBean.documentAdmin()}" />
+							<p:menuitem value="Usuários"
+								action="#{userAdminBean.userAdmin()}" />
+						</p:submenu>
+						<p:menuitem value="Home" action="/public/principal" />
+						<p:menuitem value="Quem somos" action="/public/whoweare" />
+						<p:menuitem value="Regras" action="/public/rules" />
+						<p:menuitem value="FAQ" action="/public/faq" />
+						<p:submenu label="Créditos" rendered="#{contextBean.logged}">
+							<p:menuitem value="Precatórios"
+								action="#{searchDocumentBean.init('precatorio')}" />
+							<p:menuitem value="Créditos de ICMS"
+								action="#{searchDocumentBean.init('icms')}" />
+						</p:submenu>
+						<p:menuitem value="Contato" action="/public/contact" />
+						<p:menuitem value="Cadastre-se" action="#{userBean.newUser()}"
+							rendered="#{!contextBean.logged}" />
+						<p:menuitem value="Efetue o login" action="/public/login"
+							rendered="#{!contextBean.logged}" />
+						<p:submenu label="Olá #{contextBean.loggedUser.login}"
+							rendered="#{contextBean.logged}">
+							<p:menuitem value="Minha conta" action="#{userBean.alterUser}" />
+							<p:menuitem value="Meus Créditos"
+								action="#{documentBean.viewDocuments()}" />
+							<p:menuitem value="Buscar créditos"
+								action="#{searchDocumentBean.init('all')}" />
+							<p:submenu label="Negociações">	
+							<p:menuitem value="Enviadas"
+								action="#{messageBean.init('sent')}" />
+							<p:menuitem value="Recebidas"
+								action="#{messageBean.init('received')}" />	
+							</p:submenu>	
+						</p:submenu>
+						<p:menuitem value="Sair"
+							onclick="document.location='#{request.contextPath}/j_spring_security_logout'"
+							rendered="#{contextBean.logged}" update=":menu" />
+					</p:menubar>
+				</h:form>
+			</div>
+		</div>
+	</header>
+</body>
+</html>

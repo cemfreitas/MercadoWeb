@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd ">
+
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="connection.datasource">java:/comp/env/jdbc/MercadoWebDB</property> 
+                       
+        <property name="show_sql">false</property>
+              
+        <mapping class="com.mercadodecreditos.model.City" />        
+        <mapping class="com.mercadodecreditos.model.State" />
+        <mapping class="com.mercadodecreditos.model.DDDList" />        
+        <mapping class="com.mercadodecreditos.model.Document" />
+        <mapping class="com.mercadodecreditos.model.DocumentFraction" />
+        <mapping class="com.mercadodecreditos.model.DocumentAttachment" />
+        <mapping class="com.mercadodecreditos.model.DocumentCharge" />
+        <mapping class="com.mercadodecreditos.model.DocumentQuestion" />
+        <mapping class="com.mercadodecreditos.model.DocumentFractionQuestion" />        
+        <mapping class="com.mercadodecreditos.model.DocumentSituation" />
+        <mapping class="com.mercadodecreditos.model.DocumentStatus" />
+        <mapping class="com.mercadodecreditos.model.DocumentType" />
+        <mapping class="com.mercadodecreditos.model.Feedback" />
+        <mapping class="com.mercadodecreditos.model.PurchaseFeedback" />
+        <mapping class="com.mercadodecreditos.model.SalesFeedback" />
+        <mapping class="com.mercadodecreditos.model.Situation" />
+        <mapping class="com.mercadodecreditos.model.User" />
+        <mapping class="com.mercadodecreditos.model.UserPurchase" />
+        <mapping class="com.mercadodecreditos.model.UserSales" />
+        <mapping class="com.mercadodecreditos.model.UserSituation" />
+        <mapping class="com.mercadodecreditos.model.UserType" />
+    </session-factory>
+</hibernate-configuration>

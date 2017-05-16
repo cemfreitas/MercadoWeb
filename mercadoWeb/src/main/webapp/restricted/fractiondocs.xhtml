@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+	<title>Fracionamento de ICMS</title>
+	<style type="text/css">
+.ui-widget {
+	font-size: 90%;
+}
+</style>
+</h:head>
+
+<h:body>
+	<h:panelGrid columns="2">
+		<h:outputText value="Valor residual R$:" />
+		<h:outputText value="#{documentBean.selectedDocument.residualPrice}"
+			style="font-weight:bold">
+			<f:convertNumber maxFractionDigits="2" pattern="##,##0.00" />
+		</h:outputText>
+	</h:panelGrid>
+	<p:dataTable var="fractions" value="#{documentBean.fractionDocs}">
+		<p:column headerText="Valor fracionado (R$)">
+			<h:outputText value="#{fractions.price}">
+				<f:convertNumber maxFractionDigits="2" pattern="##,##0.00" />
+			</h:outputText>
+		</p:column>
+
+		<p:column headerText="Status">
+			<h:outputText value="#{fractions.status.description}" />
+		</p:column>
+	</p:dataTable>
+</h:body>
+</html>

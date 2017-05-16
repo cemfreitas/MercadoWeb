@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<head>
+<title>Cadastro de usuários</title>
+</head>
+<ui:composition template="/templates/principal.xhtml">
+	<ui:define name="body">
+		<div id="title" class="emerald">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-6">
+						<h1>Meu cadastro</h1>
+						<p>Altere seus dados</p>
+					</div>
+					<div class="col-sm-6">
+						<ul class="breadcrumb pull-right">
+							<li><a
+								href="${request.contextPath}/faces/public/principal.xhtml">Home</a></li>
+							<li class="active">Minha conta</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="docform" class="container">
+			<h1></h1>
+			<br></br>
+			<h:form acceptcharset="ISO-8859-1">
+				<p:messages id="messages" showDetail="true" autoUpdate="true"
+					closable="true" />
+				<h:panelGrid columns="2" cellspacing="1">
+					<p:outputLabel for="name" value="Nome :" />
+					<p:inputText id="name" label="Nome" value="#{userBean.user.name}"
+						size="55" />
+						
+					<p:outputLabel for="login" value="Login :" />
+					<p:inputText id="login" label="Login"
+						value="#{userBean.user.login}" size="20" />
+						
+					<p:outputLabel for="password" value="Senha :" />
+					<p:password id="password" label="Senha" redisplay="true"
+						value="#{userBean.password}" size="20" />
+						
+					<p:outputLabel for="confirmpassword" value="Confirme a senha :" />
+					<p:password id="confirmpassword" label="Confirmação da senha"
+						redisplay="true" value="#{userBean.passwordConfirmed}" size="20" />
+						
+					<p:outputLabel for="email" value="E-mail :" />
+					<p:inputText id="email" label="E-mail"
+						value="#{userBean.user.email}" size="50" />
+						
+					<p:outputLabel for="address" value="Logradouro:" />
+					<p:inputText id="address" label="Logradouro"
+						value="#{userBean.user.address}" size="55" />
+
+					<p:outputLabel for="addressNumber" value="Número:" />
+					<p:inputText id="addressNumber" label="Número"
+						value="#{userBean.user.addressNumber}" size="10" />
+
+					<p:outputLabel for="addressComp" value="Complemento:" />
+					<p:inputText id="addressComp" label="Complemento"
+						value="#{userBean.user.addressComp}" size="20" />
+						
+					<p:outputLabel for="neighborhood" value="Bairro :" />
+					<p:inputText id="neighborhood" label="Bairro"
+						value="#{userBean.user.neighborhood}" size="55" />
+						
+					<p:outputLabel for="state" value="Estado :" />
+					<h:selectOneMenu id="state" label="Estado"
+						value="#{userBean.idState}" onchange="submit()"
+						valueChangeListener="#{userBean.fillCities}">
+						<f:selectItem itemLabel="Selecione..." itemValue="" />
+						<f:selectItems value="#{userBean.states}" />
+					</h:selectOneMenu>
+					
+					<p:outputLabel for="city" value="Município :" />
+					<h:selectOneMenu id="city" label="Município"
+						value="#{userBean.idCity}">
+						<f:selectItem itemLabel="Selecione..." itemValue="" />
+						<f:selectItems value="#{userBean.cities}" />
+					</h:selectOneMenu>
+					
+					<p:outputLabel for="zip" value="CEP :" />
+					<p:inputMask id="zip" label="CEP" value="#{userBean.user.zipCode}"
+						mask="99999-999" />
+						
+					<p:outputLabel for="birthDate"
+						value="Data de nascimento (dd/mm/aaaa) :" />
+					<p:inputMask id="birthDate" label="Data de nascimento"
+						value="#{userBean.bithDate}" mask="99/99/9999" />
+						
+					<p:outputLabel for="resPhone" value="Telefone residencial :" />
+					<p:inputMask id="resPhone" label="Telefone residencial"
+						value="#{userBean.user.resPhone}" mask="(99) 9999-9999" />
+						
+					<p:outputLabel for="commPhone" value="Telefone comercial :" />
+					<p:inputMask id="commPhone" label="Telefone comercial"
+						value="#{userBean.user.commPhone}" mask="(99) 9999-9999 R 9999" />
+						
+					<p:outputLabel for="celPhone" value="Telefone celular :" />
+					<p:inputMask id="celPhone" label="Telefone celular"
+						value="#{userBean.user.celPhone}" mask="(99) 99999-9999" />
+				</h:panelGrid>
+				<p:commandButton action="#{userBean.save('alter')}" value="Salvar" />
+				<p:commandButton action="/public/principal" value="Cancelar" />
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

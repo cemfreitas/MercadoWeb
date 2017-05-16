@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Mercado de Creditos - Status do usuário</title>
+	<h:outputStylesheet library="css" name="styles.css" />	
+</h:head>
+
+<h:body>
+	<h:form id="bid">
+		<p:panel id="panel" header="Dados do crédito">
+			<h:panelGrid columns="2" cellpadding="4">
+				<p:outputLabel value="Login :" />
+				<p:outputLabel style="font-weight:bold"
+					value="#{userAdminBean.user.login}" />
+				<p:outputLabel value="Status atual :" />
+				<p:outputLabel style="font-weight:bold"
+					value="#{userAdminBean.user.lastSituation.description}" />
+				<p:outputLabel for="statusChange" value="Novo status:" />
+				<h:selectOneMenu id="statusChange" label="Status"
+					value="#{userAdminBean.statusChanged}">
+					<f:selectItems value="#{userAdminBean.statusList}" />
+				</h:selectOneMenu>
+				<p:outputLabel for="explanations" value="Observações :" />
+				<p:inputTextarea id="explanations"
+					value="#{userAdminBean.explanation}" />				
+				<f:facet name="footer">
+					<p:commandButton value="Confirmar"
+						actionListener="#{userAdminBean.changeStatus()}">
+						<p:confirm header="Confirmação"
+							message="Confirma alteração do status ?" icon="ui-icon-alert" />
+					</p:commandButton>
+					<p:confirmDialog global="true" showEffect="fade">
+						<p:commandButton value="Sim" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						<p:commandButton value="Não" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
+					<p:commandButton value="Cancelar"
+						action="#{userAdminBean.cancelChangeUserStatus()}" />
+				</f:facet>
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+</h:body>
+</html>

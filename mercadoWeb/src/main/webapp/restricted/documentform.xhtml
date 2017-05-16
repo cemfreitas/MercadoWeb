@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+<ui:composition template="/templates/principal.xhtml">
+	<ui:define name="body">
+		<div id="title" class="emerald">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-6">
+						<h1>Novo crédito</h1>
+						<p>Cadastre um novo crédito</p>
+					</div>
+					<div class="col-sm-6">
+						<ul class="breadcrumb pull-right">
+							<li><a
+								href="${request.contextPath}/faces/public/principal.xhtml">Home</a></li>
+							<li class="active">Novo crédito</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--/#title-->
+		<div id="docform" class="container">
+			<h1></h1>
+			<br></br>
+			<h:form id="docForm" acceptcharset="ISO-8859-1">
+				<p:messages id="messages" showDetail="true" autoUpdate="true"
+					closable="true" />
+				<h:panelGrid columns="2" cellpadding="2" cellspacing="1">
+					<p:outputLabel for="doctype" value="Tipo de crédito :" />
+					<h:selectOneMenu id="doctype" label="Tipo crédito"
+						onchange="submit()" value="#{documentBean.idDocumentType}"
+						valueChangeListener="#{documentBean.changedDocumentType}"
+						update="state:city">
+						<f:selectItem itemLabel="Selecione..." itemValue="" />
+						<f:selectItems value="#{documentBean.documentTypes}" />
+					</h:selectOneMenu>
+					<p:outputLabel for="docNumber" value="Número do precatório :"
+						rendered="#{documentBean.idDocumentType ne 4 and documentBean.idDocumentType ne 0}" />
+					<p:inputText id="docNumber" label="Número do crédito :"
+						rendered="#{documentBean.idDocumentType ne 4 and documentBean.idDocumentType ne 0}"
+						value="#{documentBean.document.documentNumber}" size="30" />
+					<p:outputLabel for="state" value="Estado :"
+						rendered="#{documentBean.idDocumentType ne 3 and documentBean.idDocumentType ne 0}" />
+					<h:selectOneMenu id="state" label="Estado"
+						disabled="#{documentBean.disableStateField()}"
+						value="#{documentBean.idState}" onchange="submit()"
+						valueChangeListener="#{documentBean.fillCities}"
+						rendered="#{documentBean.idDocumentType ne 3 and documentBean.idDocumentType ne 0}">
+						<f:selectItem itemLabel="Selecione..." itemValue="" />
+						<f:selectItems value="#{documentBean.states}" />
+					</h:selectOneMenu>
+					<p:outputLabel for="city" value="Município :"
+						rendered="#{documentBean.showCityField()}" />
+					<h:selectOneMenu id="city" label="Município"
+						rendered="#{documentBean.showCityField()}"
+						value="#{documentBean.idCity}">
+						<f:selectItem itemLabel="Selecione..." itemValue="" />
+						<f:selectItems value="#{documentBean.cities}" />
+					</h:selectOneMenu>
+					<p:outputLabel for="description" value="Descrição :" />
+					<p:inputTextarea id="description" label="Descrição" rows="6"
+						cols="40" value="#{documentBean.document.description}" />
+					<p:outputLabel for="price" value="Valor de face :" />
+					<pe:inputNumber id="price" value="#{documentBean.price}"
+						symbol="R$ " decimalSeparator="," thousandSeparator="." />
+					<p:outputLabel for="isFractionPrice" value="Fracionar crédito ?"
+						rendered="#{documentBean.idDocumentType eq 4}" />
+					<p:selectOneRadio id="isFractionPrice"
+						value="#{documentBean.document.allowFractionPrice}"
+						rendered="#{documentBean.idDocumentType eq 4}">
+						<f:selectItem itemLabel="SIM" itemValue="#{true}" />
+						<f:selectItem itemLabel="NÃO" itemValue="#{false}" />
+					</p:selectOneRadio>
+					<p:outputLabel for="isChecked"
+						value="Homologado pela fazenda estadual ?"
+						rendered="#{documentBean.idDocumentType eq 4}" />
+					<p:selectOneRadio id="isChecked"
+						value="#{documentBean.document.checkedByState}"
+						rendered="#{documentBean.idDocumentType eq 4}">
+						<f:selectItem itemLabel="SIM" itemValue="#{true}" />
+						<f:selectItem itemLabel="NÃO" itemValue="#{false}" />
+					</p:selectOneRadio>
+					<p:outputLabel for="issueDate"
+						rendered="#{documentBean.idDocumentType ne 4}"
+						value="Data de emissão (dd/mm/aaaa):" />
+					<p:outputLabel for="issueDate"
+						rendered="#{documentBean.idDocumentType eq 4}"
+						value="Data da homologação (dd/mm/aaaa):" />
+					<p:inputMask id="issueDate" label="Data de emissão"
+						value="#{documentBean.issueDate}" mask="99/99/9999" />
+					<p:outputLabel for="icomeTax"
+						rendered="#{documentBean.idDocumentType ne 4}"
+						value="Imposto de renda incidente:" />
+					<pe:inputNumber id="icomeTax" label="Imposto de renda incidente"
+						rendered="#{documentBean.idDocumentType ne 4}"
+						value="#{documentBean.incomeTax}" symbol="R$ "
+						decimalSeparator="," thousandSeparator="." />
+					<p:outputLabel for="netValue"
+						rendered="#{documentBean.idDocumentType ne 4}"
+						value="Valor líquido a receber:" />
+					<pe:inputNumber id="netValue" label="Valor líquido a receber"
+						rendered="#{documentBean.idDocumentType ne 4}"
+						value="#{documentBean.netValue}" symbol="R$ "
+						decimalSeparator="," thousandSeparator="." />	
+				</h:panelGrid>
+				<p:commandButton action="#{documentBean.save}" value="Salvar" />
+				<p:commandButton action="/public/principal" value="Cancelar" />
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

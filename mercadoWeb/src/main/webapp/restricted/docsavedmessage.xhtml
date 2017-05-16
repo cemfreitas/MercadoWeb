@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/principal.xhtml">
+	<ui:define name="body">
+		<h:form id="docSaved">
+			<h3>Crédito salvo com sucesso</h3>
+			<p align="left">
+				Prezado(a) #{contextBean.loggedUser.name} seu crédito foi salvo com sucesso e será analisado pela nossa equipe.
+				Em breve já estará disponível para ser commercializado pelo site. 
+				<br />
+				<br />
+				 Atenciosamente ... <br />
+				 Equipe do Mercado de Créditos.
+			</p>
+			<p:separator />
+			<p:commandButton value="Voltar" action="/public/principal" />
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

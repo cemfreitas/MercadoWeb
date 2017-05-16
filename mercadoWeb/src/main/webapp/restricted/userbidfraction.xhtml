@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:head>
+	<title>Mercado de Creditos - Lance</title>
+	<h:outputStylesheet library="css" name="styles.css" />
+	<style type="text/css"></style>
+</h:head>
+
+<h:body>
+	<h:form id="bid">
+		<p:panel id="panel" header="Dados do crédito">
+			<p:focus context="panel" />
+			<p:messages id="messages" showDetail="true" autoUpdate="true"
+				closable="true" />
+			<h:panelGrid columns="2" cellpadding="4">
+				<p:outputLabel value="Tipo :" />
+				<p:outputLabel
+					value="#{documentQuestionBean.selectedDocument.documentType.description}" />
+				<p:outputLabel value="Núm. crédito :" />
+				<p:outputLabel
+					value="#{documentQuestionBean.selectedDocument.generatedDocNumber}" />
+				<p:outputLabel value="Valores fracionados :" />
+				<p:selectManyCheckbox id="doctype" label="Tipo crédito"
+					layout="grid" columns="20"
+					value="#{documentQuestionBean.selectedFractionDocs}">
+					<!-- valueChangeListener="#{documentQuestionBean.AccTotalFraction()}" -->					
+					<f:selectItems value="#{documentQuestionBean.fractionValues}" />
+					<p:ajax listener="#{documentQuestionBean.AccTotalFraction()}"
+						update="totalFraction" />
+				</p:selectManyCheckbox>
+				<p:outputLabel value="Data da emissão :" />
+				<p:outputLabel
+					value="#{documentQuestionBean.selectedDocument.issueDate}">
+					<f:convertDateTime pattern="dd-MM-yyyy" />
+				</p:outputLabel>
+				<p:outputLabel value="Valor total :" />
+				<p:outputLabel id="totalFraction"
+					value="#{documentQuestionBean.totalFraction.floatValue()}">
+					<f:convertNumber maxFractionDigits="2" pattern="##,##0.00" />
+				</p:outputLabel>
+				<p:outputLabel for="bidValue" value="Valor da oferta :" />
+				<pe:inputNumber id="bidValue" value="#{documentQuestionBean.bid}"
+					symbol="R$ " decimalSeparator="," thousandSeparator="." />
+				<f:facet name="footer">
+					<p:commandButton value="Confirmar"
+						actionListener="#{documentQuestionBean.saveBid()}">
+						<p:confirm header="Confirmação"
+							message="Confirma sua oferta para esse crédito ?"
+							icon="ui-icon-alert" />
+					</p:commandButton>
+					<p:confirmDialog global="true" showEffect="fade">
+						<p:commandButton value="Sim" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						<p:commandButton value="Não" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
+					<p:commandButton value="Cancelar"
+						action="#{documentQuestionBean.cancelBid()}" />
+				</f:facet>
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+</h:body>
+</html>

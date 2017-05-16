@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Bem vindo</title>	
+</h:head>
+<ui:composition template="/templates/principal.xhtml">
+	<ui:define name="body">
+		<h:form id="welcome">
+			<h3>Bem vindo ao Mercado de Créditos</h3>
+			<p align="left">
+				Sua oferta foi registrada com sucesso e uma confirmação será enviada para seu e-mail.				
+				Aguarde uma resposta do proprietário do crédito, você poderá checá-la em sua caixa de mesnsagem. 
+				<br />
+				<br />
+				 Obrigado ... <br /> 
+				 Equipe do Mercado de Créditos.
+			</p>
+			<p:separator />
+			<p:commandButton value="Voltar" action="/public/principal" />
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

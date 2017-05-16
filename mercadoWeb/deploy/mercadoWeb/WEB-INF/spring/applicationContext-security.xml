@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:b="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+	<http>
+
+		<intercept-url pattern="/faces/admin/**" access="ROLE_ADMINISTRATOR" />
+		<intercept-url pattern="/faces/restricted/**" access="ROLE_USER" />
+
+		<form-login login-page="/faces/public/login.xhtml"
+			always-use-default-target="true" authentication-success-handler-ref="authSuccessHandler"
+			authentication-failure-handler-ref="authFailureHandler" />
+		<logout logout-success-url="/faces/public/principal.xhtml"
+			delete-cookies="JSESSIONID" />
+
+		<remember-me />
+	</http>
+
+	<authentication-manager>
+		<authentication-provider>
+			<password-encoder hash="md5" />
+			<jdbc-user-service data-source-ref="dataSource"
+				authorities-by-username-query="select login,role from
+												(select login,
+												case isAdmin
+  													when 'Y' then 'ROLE_ADMINISTRATOR'
+  													when 'N' then 'ROLE_USER'
+  													else 'ROLE_USER'
+												end as role
+												from User
+												union
+												select login, 'ROLE_USER' as role
+												from User where isAdmin = 'Y') t1
+												where login = ?"
+				users-by-username-query="select login,password,
+										 case lastSituation
+  										 	when 2 then 1
+  											else 0
+										 end as active
+										from User where login = ?" />
+		</authentication-provider>
+	</authentication-manager>
+</b:beans>

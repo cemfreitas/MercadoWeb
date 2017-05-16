@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/principal.xhtml">
+	<ui:define name="body">
+		<div id="title" class="emerald">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-6">
+						<h1>Administração de usuários</h1>
+						<p>Altere o cadastro ou o status de usuários</p>
+					</div>
+					<div class="col-sm-6">
+						<ul class="breadcrumb pull-right">
+							<li><a
+								href="${request.contextPath}/faces/public/principal.xhtml">Home</a></li>
+							<li class="active">Administração de usuários</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="docform" class="container">
+			<h1></h1>
+			<br></br>
+			<h:form id="userAdminForm" acceptcharset="ISO-8859-1">
+				<p:messages id="messages" showDetail="true" autoUpdate="true"
+					closable="true" />
+				<h:panelGrid id="a1" columns="2" cellpadding="2" cellspacing="1">
+					<p:outputLabel for="login" value="Login :" />
+					<p:inputText id="login" value="#{userAdminBean.login}" />
+					<p:outputLabel for="email" value="e-mail :" />
+					<p:inputText id="email" value="#{userAdminBean.email}" />
+					<p:outputLabel for="cpf" value="CPF :" />
+					<p:inputMask id="cpf" value="#{userAdminBean.cpf}"
+						mask="999.999.999-99" />
+					<p:outputLabel for="cnpj" value="CNPJ :" />	
+					<p:inputMask id="cnpj" value="#{userAdminBean.cnpj}"
+						mask="99.999.999/9999-99" />
+				</h:panelGrid>
+				<br />
+				<p:commandButton action="#{userAdminBean.searchUser()}"
+					update=":userForm" value="Buscar" />
+				<p:commandButton action="/public/principal" value="Cancelar" />
+			</h:form>
+			<br />
+			<h:form id="userForm">
+				<p:panel id="userPanel" header="Dados do usuários"
+					style="margin-bottom:20px"
+					rendered="#{userAdminBean.showUserPanel}">
+					<h:panelGrid columns="2" cellpadding="1" cellspacing="1"
+						rendered="#{userAdminBean.showUserPanel}">
+						<p:outputLabel value="Nome :" />
+						<p:outputLabel value="#{userAdminBean.user.name}"
+							style="font-weight:bold" />
+						<p:outputLabel value="Login :" />
+						<p:outputLabel value="#{userAdminBean.user.login}"
+							style="font-weight:bold" />
+						<p:outputLabel value="e-mail :" />
+						<p:outputLabel value="#{userAdminBean.user.email}"
+							style="font-weight:bold" />
+						<p:outputLabel value="CPF :" />
+						<p:outputLabel value="#{userAdminBean.user.CPF}"
+							style="font-weight:bold" />
+						<p:outputLabel value="CNPJ :" />
+						<p:outputLabel value="#{userAdminBean.user.CNPJ}"
+							style="font-weight:bold" />
+						<p:outputLabel value="Município :" />
+						<p:outputLabel value="#{userAdminBean.user.city.description}"
+							style="font-weight:bold" />
+						<p:outputLabel value="Status atual:" />
+						<p:outputLabel
+							value="#{userAdminBean.user.lastSituation.description}"
+							style="font-weight:bold" />
+						<p:outputLabel value="Usuário administrador :" />
+						<p:outputLabel value="#{userAdminBean.isAdmin}"
+							style="font-weight:bold" />
+						<f:facet name="footer">
+							<p:commandButton action="#{userAdminBean.alterUser()}"
+								value="Alterar cadastro" />
+							<p:commandButton
+								actionListener="#{userAdminBean.changeUserStatus()}"
+								value="Mudar status"
+								disabled="#{userAdminBean.user.login eq 'admin'}">
+								<p:ajax event="dialogReturn"
+									listener="#{userAdminBean.userAdmin()}"
+									update=":userAdminForm :userForm" />
+							</p:commandButton>
+							<p:commandButton value="Torná-lo admin"
+								actionListener="#{userAdminBean.changeAdminStatus(true)}"
+								rendered="#{!userAdminBean.user.admin}"
+								update=":userAdminForm :userForm"
+								disabled="#{userAdminBean.user.login eq 'admin'}">
+								<p:confirm header="Confirmação"
+									message="Confirma torná-lo administrador?" icon="ui-icon-alert" />
+							</p:commandButton>
+							<p:commandButton rendered="#{userAdminBean.user.admin}"
+								value="Retirá-lo admin"
+								actionListener="#{userAdminBean.changeAdminStatus(false)}"
+								update=":userAdminForm :userForm"
+								disabled="#{userAdminBean.user.login eq 'admin'}">
+								<p:confirm header="Confirmação"
+									message="Confirma retirá-lo de administrador?"
+									icon="ui-icon-alert" />
+							</p:commandButton>
+							<p:confirmDialog showEffect="fade" global="true">
+								<p:commandButton value="Sim" type="button"
+									styleClass="ui-confirmdialog-yes" icon="ui-icon-check">
+								</p:commandButton>
+								<p:commandButton value="Não" type="button"
+									styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+							</p:confirmDialog>
+						</f:facet>
+					</h:panelGrid>
+				</p:panel>
+				<h:panelGrid rendered="#{userAdminBean.showUserNotFound}">
+					<p:outputLabel value="Usuário não localisado" />
+				</h:panelGrid>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

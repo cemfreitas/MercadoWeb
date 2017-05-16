@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<head>
+</head>
+
+<ui:composition template="/templates/principal.xhtml">
+	<ui:define name="body">
+		<div id="title" class="emerald">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-6">
+						<h1>Negociações</h1>
+						<p>Lances enviados</p>
+					</div>
+					<div class="col-sm-6">
+						<ul class="breadcrumb pull-right">
+							<li><a
+								href="${request.contextPath}/faces/public/principal.xhtml">Home</a></li>
+							<li class="active">Negociações Enviadas</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--/#title-->
+		<div id="docform" class="container">
+			<h1></h1>
+			<br></br>
+			<h:form id="searchForm">
+				<p:messages id="messages" showDetail="true" autoUpdate="true"
+					closable="true" />
+				<h:panelGrid columns="2" cellpadding="4" cellspacing="3">					
+					<p:outputLabel for="status" value="Status :" />
+					<p:selectOneRadio id="status" value="#{messageBean.msgStatus}"
+						onchange="submit()"
+						valueChangeListener="#{messageBean.fillDocuments}">
+						<f:selectItem itemLabel="Todas" itemValue="all" />
+						<f:selectItem itemLabel="Em negociação" itemValue="still" />
+						<f:selectItem itemLabel="Concluídas" itemValue="concluded" />
+					</p:selectOneRadio>
+					<p:outputLabel for="documents" value="Papéis :" />
+					<h:selectOneMenu id="documents"
+						value="#{messageBean.selectedDocument}" onchange="submit()"	>
+						<!-- <f:selectItem itemLabel="Todos" itemValue="-1" /> -->
+						<f:selectItems value="#{messageBean.documentsMsg}" />
+					</h:selectOneMenu>					
+				</h:panelGrid>
+				<p:commandButton action="#{messageBean.searchMessages()}"
+					update=":messagesForm" value="Buscar" />
+				<p:commandButton action="/public/principal" value="Cancelar" />
+			</h:form>
+			<h:panelGrid columns="1">
+				<p:separator style="width:1130px;height:1px;align:left" />
+			</h:panelGrid>
+			<h:form id="messagesForm">
+				<p:dataTable id="messages" var="message"
+					value="#{messageBean.messagesSent}"
+					rendered="#{messageBean.showTableMsg}" paginator="true" rows="15"										
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="15,30,50">
+					<p:column style="width:115px;text-align:center">
+						<p:commandButton id="msgBtn"
+							value="#{messageBean.getTitleText(message)}"
+							action="#{messageBean.openMessageSent()}"
+							disabled="#{messageBean.disableMessageOpen}">
+							<f:setPropertyActionListener value="#{message}"
+								target="#{messageBean.selectedMessageSent}" />
+							<p:ajax event="dialogReturn"
+								listener="#{messageBean.searchMessages()}"
+								update=":messagesForm" />
+						</p:commandButton>
+					</p:column>
+					<!-- <p:column headerText="Login" style="text-align:center"
+						rendered="#{messageBean.msgType.equals('sent')}"
+						sortBy="#{message.document.user.login}">
+						<h:outputText value="#{message.document.user.login}" />
+					</p:column>
+					<p:column headerText="Login " style="text-align:center"
+						rendered="#{messageBean.msgType.equals('received')}"
+						sortBy="#{message.userBid.login}">
+						<h:outputText value="#{message.userBid.login}" />
+					</p:column> -->
+					<p:column headerText="Núm. crédito" style="text-align:center">
+						<h:outputText value="#{message.document.generatedDocNumber}" />
+					</p:column>
+					<p:column headerText="Tipo de crédito" style="text-align:center"
+						sortBy="#{message.document.documentType.description}">
+						<h:outputText
+							value="#{searchDocumentBean.getDocumentTypeDesc(message.document)}" />
+					</p:column>
+					<p:column headerText="Valor de face" style="text-align:center"
+						sortBy="#{message.document.price.doubleValue()}">
+						<h:outputText value="#{message.document.price.doubleValue()}">
+							<f:convertNumber maxFractionDigits="2" pattern="##,##0.00"/>
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Oferta" style="text-align:center"
+						sortBy="#{message.bid.doubleValue()}">
+						<h:outputText value="#{message.bid.doubleValue()}">
+							<f:convertNumber maxFractionDigits="2" pattern="##,##0.00" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Data da mensagem" style="text-align:center"
+						sortBy="#{message.documentQuestionDate}">
+						<h:outputText value="#{message.formatedDate}"/>							
+						<!-- <h:outputText value="#{message.documentQuestionDate}">
+							<f:convertDateTime pattern="dd-MM-yyyy HH:mm" />
+						</h:outputText> -->
+					</p:column>
+					<p:column headerText="Status" style="text-align:center"
+						sortBy="#{message.document.lastDocumentStatus.description}">
+						<h:outputText
+							value="#{message.document.lastDocumentStatus.description}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+
+</html>

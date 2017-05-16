@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<h:head>
+	<title>Mercado de Creditos - Mensagem</title>
+	<h:outputStylesheet library="css" name="styles.css" />
+	<style type="text/css"></style>
+</h:head>
+<h:body>
+	<h:form id="msgReply">
+		<p:panel id="panel" header="Dados da mensagem">
+			<p:focus context="panel" />
+			<p:messages id="messages" showDetail="true" autoUpdate="true"
+				closable="true" />
+			<h:panelGrid columns="2" cellpadding="4">
+				<p:outputLabel value="Núm. crédito :" />
+				<p:outputLabel
+					value="#{messageBean.selectedMessageSent.document.generatedDocNumber}" />
+				<p:outputLabel value="Tipo :" />
+				<p:outputLabel
+					value="#{messageBean.selectedMessageSent.document.documentType.description}" />
+				<p:outputLabel value="Valor de face do crédito :" />
+				<h:outputText
+					value="#{messageBean.selectedMessageSent.document.price.doubleValue()}">
+					<f:convertNumber maxFractionDigits="2" pattern="##,##0.00" />
+				</h:outputText>
+				<p:outputLabel value="Imposto de renda incidente:"
+					rendered="#{messageBean.selectedMessageSent.document.documentType.xidDocumentType ne 4}" />
+				<h:outputText
+					value="#{messageBean.selectedMessageSent.document.incomeTaxValue.doubleValue()}"
+					rendered="#{messageBean.selectedMessageSent.document.documentType.xidDocumentType ne 4}">
+					<f:convertNumber maxFractionDigits="2" pattern="##,##0.00" />
+				</h:outputText>
+				<p:outputLabel value="Valor líquido a receber:"
+					rendered="#{messageBean.selectedMessageSent.document.documentType.xidDocumentType ne 4}" />
+				<h:outputText
+					value="#{messageBean.selectedMessageSent.document.netValueToReceive.doubleValue()}"
+					rendered="#{messageBean.selectedMessageSent.document.documentType.xidDocumentType ne 4}">
+					<f:convertNumber maxFractionDigits="2" pattern="##,##0.00" />
+				</h:outputText>
+				<p:outputLabel value="Sua oferta :" />
+				<h:outputText
+					value="#{messageBean.selectedMessageSent.bid.doubleValue()}">
+					<f:convertNumber maxFractionDigits="2" pattern="##,##0.00" />
+				</h:outputText>
+				<p:outputLabel for="bidValue" value="Nova oferta :" />
+				<pe:inputNumber id="bidValue" value="#{messageBean.newBid}"
+					symbol="R$ " decimalSeparator="," thousandSeparator="." />
+
+				<f:facet name="footer">
+					<p:commandButton value="Confirmar"						
+						actionListener="#{messageBean.saveBidSent()}">
+						<p:confirm header="Confirmação"
+							message="Confirma sua nova oferta para esse crédito ?"
+							icon="ui-icon-alert" />
+					</p:commandButton>				
+					
+					<p:confirmDialog global="true" showEffect="fade">
+						<f:facet name="message">
+							<h:outputText value="Uma mensagem será enviada para o usuário " />
+							<h:outputText
+								value="#{messageBean.selectedMessageSent.userBid.login}"
+								style="font-weight:bold" />
+							<br />
+							<h:outputText value="Confirma ?" />
+						</f:facet>
+						<p:commandButton value="Sim" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						<p:commandButton value="Não" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
+					<p:commandButton value="Cancelar"
+						action="#{documentQuestionBean.cancelBid()}" />
+				</f:facet>
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+
+</h:body>
+</html>
